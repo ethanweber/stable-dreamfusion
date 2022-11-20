@@ -136,6 +136,7 @@ if __name__ == '__main__':
 
         if opt.guidance == 'stable-diffusion':
             from nerf.sd import StableDiffusion
+            # NOTE: 'guidance' is the text-prior model
             guidance = StableDiffusion(device)
         elif opt.guidance == 'clip':
             from nerf.clip import CLIP

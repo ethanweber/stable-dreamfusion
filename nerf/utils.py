@@ -203,6 +203,7 @@ class Trainer(object):
         self.model = model
 
         # guide model
+        # NOTE: see main.py for how this is set
         self.guidance = guidance
 
         # text prompt
@@ -360,6 +361,7 @@ class Trainer(object):
 
         # _t = time.time()
         bg_color = torch.rand((B * N, 3), device=rays_o.device) # pixel-wise random
+        # NOTE: render an image
         outputs = self.model.render(rays_o, rays_d, staged=False, perturb=True, bg_color=bg_color, ambient_ratio=ambient_ratio, shading=shading, force_all_rays=True, **vars(self.opt))
         pred_rgb = outputs['image'].reshape(B, H, W, 3).permute(0, 3, 1, 2).contiguous() # [1, 3, H, W]
         # torch.cuda.synchronize(); print(f'[TIME] nerf render {time.time() - _t:.4f}s')
@@ -376,8 +378,11 @@ class Trainer(object):
         
         # encode pred_rgb to latents
         # _t = time.time()
+        # NOTE: text-loss
         loss = self.guidance.train_step(text_z, pred_rgb)
         # torch.cuda.synchronize(); print(f'[TIME] total guiding {time.time() - _t:.4f}s')
+
+        # NOTE: various losses below
 
         # occupancy loss
         pred_ws = outputs['weights_sum'].reshape(B, 1, H, W)

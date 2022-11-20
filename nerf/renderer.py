@@ -193,6 +193,8 @@ class NeRFRenderer(nn.Module):
 
             # unwrap uvs
             import xatlas
+            # NOTE: export mesh code using https://github.com/NVlabs/nvdiffrast/.
+            # looks like resolution if per vertex instead of a higher res texture image
             import nvdiffrast.torch as dr
             from sklearn.neighbors import NearestNeighbors
             from scipy.ndimage import binary_dilation, binary_erosion
@@ -320,7 +322,7 @@ class NeRFRenderer(nn.Module):
                 fp.write(f'Ka 1.000000 1.000000 1.000000 \n')
                 fp.write(f'Kd 1.000000 1.000000 1.000000 \n')
                 fp.write(f'Ks 0.000000 0.000000 0.000000 \n')
-                fp.write(f'Tr 1.000000 \n')
+                fp.write(f'Tr 1.000000 \n') # not sure why this is set to 1.0?
                 fp.write(f'illum 1 \n')
                 fp.write(f'Ns 0.000000 \n')
                 fp.write(f'map_Kd {name}albedo.png \n')

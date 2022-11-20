@@ -193,6 +193,7 @@ class NeRFNetwork(NeRFRenderer):
             # normal = normal.detach()
 
             # lambertian shading
+            # NOTE: where the shading occurs
             lambertian = ratio + (1 - ratio) * (normal @ l).clamp(min=0) # [N,]
 
             if shading == 'textureless':
