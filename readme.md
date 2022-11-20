@@ -78,6 +78,7 @@ First time running will take some time to compile the CUDA extensions.
 
 ### Instant-NGP NeRF Backbone 
 # + faster rendering speed
+# NOTE: the memory requirements
 # + less GPU memory (~16G)
 # - need to build CUDA extensions
 # - worse surface quality
@@ -150,6 +151,7 @@ latents = self.encode_imgs(pred_rgb_512)
 # 3. the SDS loss, since UNet part is ignored and cannot simply audodiff, we manually set the grad for latents.
 w = (1 - self.alphas[t])
 grad = w * (noise_pred - noise)
+# NOTE: why can't UNet part be autodiff?
 latents.backward(gradient=grad, retain_graph=True)
 ```
 * Other regularizations are in `./nerf/utils.py > Trainer > train_step`. 

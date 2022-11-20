@@ -13,6 +13,7 @@ rich
 dearpygui
 scipy
 huggingface_hub
+# the 2 dependencies below are the main ones needed for dreamfusion
 diffusers
 transformers
 xatlas
